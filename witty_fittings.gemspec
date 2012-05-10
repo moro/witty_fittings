@@ -14,4 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "witty_fittings"
   gem.require_paths = ["lib"]
   gem.version       = WittyFittings::VERSION
+
+  gem.add_dependency "activerecord", [">= 3.0"]
+  gem.add_development_dependency "rspec", [">= 2.0"]
 end
