@@ -33,12 +33,17 @@ module WittyFittings
         yield
         load_fixture_data!
       ensure
+        @captured = true
         Thread.current[self.class.variable_name] = nil
       end
     end
 
     def inserted klass, new_id
       @records[klass].add new_id.to_i
+    end
+
+    def captured?
+      @captured
     end
 
     private
