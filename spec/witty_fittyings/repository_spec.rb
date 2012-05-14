@@ -9,8 +9,6 @@ describe WittyFittings::Repository do
 
   let(:lesson) { Lesson.first }
 
-  after { Lesson.delete_all }
-
   RSpec::Matchers.define :contain_data do |rows|
     match do |fixtures|
       fixtures.map {|h| h.except('created_at', 'updated_at') } == rows
