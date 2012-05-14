@@ -50,7 +50,7 @@ module WittyFittings
 
     def load_fixture_data!
       @records.each do |klass, ids|
-        @fixtures[klass] = klass.where(id: ids.to_a).uniq.map {|o| o.attributes.except('created_at', 'updated_at') }
+        @fixtures[klass] = klass.where(id: ids.to_a).uniq.map(&:attributes)
       end
     end
 

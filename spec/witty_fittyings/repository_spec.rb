@@ -11,6 +11,12 @@ describe WittyFittings::Repository do
 
   after { Lesson.delete_all }
 
+  RSpec::Matchers.define :contain_data do |rows|
+    match do |fixtures|
+      fixtures.map {|h| h.except('created_at', 'updated_at') } == rows
+    end
+  end
+
   context 'create lesson simply' do
     before do
       repository.capture do
@@ -19,7 +25,7 @@ describe WittyFittings::Repository do
       Lesson.create name: '2nd Lesson' # ignored
     end
     specify { repository.records[Lesson].should == Set.new([lesson.id]) }
-    specify { repository.fixtures[Lesson].should == [{'id' => lesson.id, 'name' => lesson.name}] }
+    specify { repository.fixtures[Lesson].should contain_data([{'id' => lesson.id, 'name' => lesson.name}]) }
   end
 
   context 'update lesson after create' do
@@ -29,7 +35,7 @@ describe WittyFittings::Repository do
         l.update_attributes! name: 'Great Lesson!!!'
       end
     end
-    specify { repository.fixtures[Lesson].should == [{'id' => lesson.id, 'name' => 'Great Lesson!!!'}] }
+    specify { repository.fixtures[Lesson].should contain_data([{'id' => lesson.id, 'name' => 'Great Lesson!!!'}]) }
   end
 
 end
