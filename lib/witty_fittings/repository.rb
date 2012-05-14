@@ -19,10 +19,11 @@ module WittyFittings
       'witty_fitting.current_repository'
     end
 
-    attr_reader :records
+    attr_reader :records, :fixtures
 
     def initialize
       @records = Hash.new {|h, k| h[k] = Set.new }
+      @fixtures = Hash.new
     end
 
     def capture
@@ -30,6 +31,7 @@ module WittyFittings
       begin
         Thread.current[self.class.variable_name] = self
         yield
+        load_fixture_data!
       ensure
         Thread.current[self.class.variable_name] = nil
       end
@@ -39,8 +41,13 @@ module WittyFittings
       @records[klass].add new_id.to_i
     end
 
-    def captured?
-      false
+    private
+
+    def load_fixture_data!
+      @records.each do |klass, ids|
+        @fixtures[klass] = klass.where(id: ids.to_a).uniq.map {|o| o.attributes.except('created_at', 'updated_at') }
+      end
     end
+
   end
 end
