@@ -29,6 +29,11 @@ class Lesson < ActiveRecord::Base
 end
 
 class Person < ActiveRecord::Base
+  has_many :attendences, dependent: :destroy
+
+  def attend(lesson)
+    attendences.create!(lesson: lesson)
+  end
 
 end
 

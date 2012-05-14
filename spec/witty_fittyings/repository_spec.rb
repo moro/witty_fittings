@@ -36,5 +36,21 @@ describe WittyFittings::Repository do
     specify { repository.fixtures[Lesson].should contain_data([{'id' => lesson.id, 'name' => 'Great Lesson!!!'}]) }
   end
 
+  context 'copmlex data graph' do
+    before do
+      repository.capture do
+        l = Lesson.create! name: '1st Lesson'
+        p = Person.create! name: 'Alice'
+        p.attend(l)
+      end
+    end
+
+    specify {
+      [Lesson, Person, Attendence].should satisfy do |tables|
+        tables.all? {|t| repository.fixtures[t].size > 0 }
+      end
+    }
+  end
+
 end
 
