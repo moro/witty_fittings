@@ -20,7 +20,7 @@ describe WittyFittings::Fittings do
       Lesson.transaction { fittings.setup; raise ActiveRecord::Rollback } rescue nil
     end
 
-    xspecify do
+    specify do
       expect { fittings.setup }.should change(Lesson, :count).by(1)
     end
   end
