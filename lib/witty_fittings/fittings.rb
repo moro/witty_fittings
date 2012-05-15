@@ -11,9 +11,11 @@ module WittyFittings
       if @repository.captured?
         insert_fixtures
       else
-        capture_insertion { @data_creation.call }
+        capture_insertion(@data_creation)
       end
     end
+
+    private
 
     def insert_fixtures
       @repository.fixtures.each do |klass, fixtures|
@@ -23,8 +25,8 @@ module WittyFittings
       end
     end
 
-    def capture_insertion
-      @repository.capture { yield }
+    def capture_insertion(data_creation)
+      @repository.capture(&data_creation)
     end
 
   end
