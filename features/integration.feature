@@ -4,7 +4,7 @@ Feature: WitFit provides dynamic fixture set.
   I want to define and load well-trained fixture data set.
   Because I want to manage both real data-graph and test speed.
 
-  Scenario: run integrated witty fitting, skip heavy generation logic at twice.
+  Scenario: run integrated witty fitting, skip heavy generation logic on sencond call.
     Given a file named "attendence_with_heavy_data_spec.rb" with:
       """
       require 'spec_helper'
@@ -44,4 +44,5 @@ Feature: WitFit provides dynamic fixture set.
 
     When I run `bundle exec rspec attendence_with_heavy_data_spec.rb`
     Then the examples should all pass
+    And  the output should match /Finished in 0.\d+ seconds/
 
