@@ -16,7 +16,8 @@ Feature: WitFit provides dynamic fixture set.
         context 'one person attends the lesson' do
           subject &:lesson
 
-          its(:attendee) { should include(person) }
+          its(:attendees) { should include(person) }
+          it { should have(1).attendees }
         end
       end
       """
@@ -25,7 +26,12 @@ Feature: WitFit provides dynamic fixture set.
       require 'witty_fittings/dsl'
 
       WittyFittings.define 'a *person* attends a *lesson*' do
+        n = 0
+
         fittings do
+          Kernel.sleep n * 5
+          n += 1
+
           l = Lesson.create! name: '1st Lesson'
           p = Person.create! name: 'Alice'
           p.attend(l)
