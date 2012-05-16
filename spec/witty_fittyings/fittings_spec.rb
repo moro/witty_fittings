@@ -16,7 +16,8 @@ describe WittyFittings::Fittings do
   context 'wittings, can yielded setup only once' do
     let :fittings do
       n = 0
-      WittyFittings::Fittings.new do
+      f = WittyFittings::Fittings.new
+      f.fittings do
         raise if n > 0
         n += 1
         Lesson.create! name: '1st lesson'
@@ -41,7 +42,8 @@ describe WittyFittings::Fittings do
 
   context 'setup complex data as fixture' do
     let :fittings do
-      WittyFittings::Fittings.new do
+      f = WittyFittings::Fittings.new
+      f.fittings do
         l = Lesson.create! name: '1st Lesson'
         p = Person.create! name: 'Alice'
         p.attend(l)
