@@ -1,0 +1,2 @@
+default: --require features --strict --format progress --tags ~@wip features
+
