@@ -1,10 +1,24 @@
 require 'witty_fittings/repository'
+require 'witty_fittings/reader_mixin'
 
 module WittyFittings
   class Fittings
-    def initialize &data_creation
-      @data_creation = data_creation
+    def initialize
       @repository = Repository.new
+      @mixin = ReaderMixin.new(self)
+    end
+
+    def to_module
+      @mixin.to_module
+    end
+
+    def fittings(&block)
+      @data_creation = block
+      self
+    end
+
+    def let(variable_name, &block)
+      @mixin.let(variable_name, &block)
     end
 
     def setup

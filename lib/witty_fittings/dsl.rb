@@ -1,22 +1,28 @@
+require 'forwardable'
+require 'witty_fittings/fittings'
+
 module WittyFittings
   module Dsl
     WittyFittings.extend self
 
-    def [](name)
-      Module.new do
-        def person
-        end
+    class Proxy < BasicObject
+      extend ::Forwardable
 
-        def lesson
-        end
+      def_delegators '@fittings', :let, :fittings
+
+      def initialize(fittings)
+        @fittings = fittings
       end
     end
 
-    def define(name, &block)
+    def [](name)
+      @__fittings__[name].to_module
     end
 
-    def let(var)
-      nil
+    def define(name, &block)
+      @__fittings__ ||= {}
+      @__fittings__[name] = WittyFittings::Fittings.new
+      Proxy.new(@__fittings__[name]).instance_eval(&block)
     end
   end
 end
