@@ -12,6 +12,6 @@ end
 
 Cucumber::Rake::Task.new(:cucumber)
 
-task :default => [:spec]
+task :default => [:spec, :cucumber]
 
 
