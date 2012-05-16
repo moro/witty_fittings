@@ -7,7 +7,7 @@ describe WittyFittings::ReaderMixin do
   end
 
   let :a_object do
-    Class.new { def self.before(*ignore); end }.new
+    Object.new
   end
 
   context 'defined foo() method to return "a value"' do

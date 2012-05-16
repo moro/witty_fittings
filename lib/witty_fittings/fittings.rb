@@ -9,7 +9,7 @@ module WittyFittings
     end
 
     def to_module
-      @mixin.to_module
+      @mixin.to_module.tap {|m| m.extend setup_module }
     end
 
     def fittings(&block)
@@ -41,6 +41,15 @@ module WittyFittings
 
     def capture_insertion(data_creation)
       @repository.capture(&data_creation)
+    end
+
+    def setup_module
+      _f = self
+      Module.new do
+        define_method :included do |base|
+          base.before(:each) { _f.setup }
+        end
+      end
     end
 
   end
