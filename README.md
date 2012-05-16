@@ -1,6 +1,8 @@
 # WittyFittings
 
-TODO: Write a gem description
+build fixture dataset at significantly ease.
+
+[![Build Status](https://buildhive.cloudbees.com/job/moro/job/witty_fittings/badge/icon)](https://buildhive.cloudbees.com/job/moro/job/witty_fittings/)
 
 ## Installation
 
